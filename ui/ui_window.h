@@ -1,5 +1,3 @@
-// A simple two-tone window
-
 #ifndef UI_WINDOW_H
 #define UI_WINDOW_H
 

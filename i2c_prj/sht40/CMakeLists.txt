@@ -1,4 +1,3 @@
-# Based on LCD library CMakeLists.txt
 aux_source_directory(. DIR_SHT40_SRCS)
 include_directories(../../pi_platform)
 include_directories(../i2c_prj)

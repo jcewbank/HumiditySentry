@@ -41,48 +41,10 @@ static void LCD_Reset(void)
     Driver_Delay_ms(500);
 }
 
-static const uint16_t BACKLIGHT_LEVELS[] = {
-	0x000f,
-	0x00fe,
-	0x01fd,
-	0x02fc,
-	0x03fb,
-	0x04fa,
-	0x05f9,
-	0x06f8,
-	0x07f7,
-	0x08f6,
-	0x09f5,
-	0x0af4,
-	0x0bf3,
-	0x0cf2,
-	0x0df1,
-	0x0ef0,
-	0x0fef,
-	0x10ee,
-	0x11ed,
-	0x12ec,
-	0x13eb,
-	0x14ea,
-	// No perceptible difference beyond this point
-	// 0x15e9,
-	// 0x16e8,
-	// 0x17e7,
-	// 0x18e6,
-	// 0x19e5,
-	// 0x1ae4,
-	};
-
 // // Gamma correction function for smooth perceived brightness
 static uint16_t gamma_correct(uint16_t brightness) {
     // Adjust the exponent between 2.0 and 3.0 for desired curve
     const float gamma = 3.0f;
-    
-    // Normalize input to 0-1 range
- 	// By observation, screen is brightest around 0x17e7
- 	// so scale input to that range as well.
- 	// #define LCD_MAX_BRIGHT_SCALE (float)6119 / (float)65535
- 	// brightness = (float)brightness * LCD_MAX_BRIGHT_SCALE;
 
  	// Normalize the input to 0-1
      float normalized = (float)brightness / 65535.0f;
@@ -97,7 +59,6 @@ static uint16_t gamma_correct(uint16_t brightness) {
 static uint16_t s_last_bl_value = 0;
 void LCD_SetBackLight(uint16_t value)
 {
-	// Scale 0-255 into the known valid range of [0x0000, 0x16e8]
 	if(value == s_last_bl_value){
 		return;
 	}

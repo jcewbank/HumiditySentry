@@ -1,22 +1,15 @@
 #include "pi_platform/settings.h"
 #include "pi_platform/util.h"
-// #include "i2c_prj/sht40/sht40.h"
 #include "i2c_prj/i2c_main.h"
 #include "humidifier/humidifier_main.h"
-// #include "examples/lcd_main.h"
 #include "ui/ui_mainwindow.h"
-
 #include "tch/tch_main.h"
-
 #include "pico/stdlib.h"
 #include "pico/multicore.h"
 #include "hardware/timer.h"
 #include "DEV_Config.h"
 #include "LCD_Driver.h"
-// #include "LCD_Touch.h"
-
 #include "hardware/spi.h"
-
 #include "string.h"
 #include <math.h>
 
@@ -40,20 +33,11 @@ static struct {
 
 #define DO_PRINT_SENSORS (false)
 
-// I2C functions
-// bool i2c_sample_sht40() {
-//     sht40_trh_data_t lcl_temp_rh_data;
-//     memset(&lcl_temp_rh_data, 0, sizeof(sht40_trh_data_t ));
-//     sht40_err = sht40_sample(&lcl_temp_rh_data);
-//     memcpy((void *)&temp_rh_data, &lcl_temp_rh_data, sizeof(sht40_trh_data_t));
-// }
-
-// Gather sensor and touch screen data on Core 1
+// Gather sensor data on Core 1
 #define SENSOR_PERIOD_MS (100)
 #define TP_PERIOD_MS (1)
 #define UI_PERIOD_MS (16)
 void core1_main(){
-    // Initialize sensors
     i2c_prj_init();
     humidifier_init();
 
@@ -65,26 +49,16 @@ void core1_main(){
 }
 
 void setup_spi(uint baud_rate) {
-    spi_init(SPI_PORT, baud_rate);  // Set the SPI clock speed (baud rate)
- 
-    // Set up the SPI pins (MISO, MOSI, SCK, and CS)
+    spi_init(SPI_PORT, baud_rate);
     gpio_set_function(LCD_CLK_PIN, GPIO_FUNC_SPI);
     gpio_set_function(LCD_MOSI_PIN, GPIO_FUNC_SPI);
     gpio_set_function(LCD_MISO_PIN, GPIO_FUNC_SPI);
- 
-    // Optional: Configure SPI in master mode, CPOL/CPHA, etc.
-    // spi_set_format(SPI_PORT, 8, SPI_POL0_PHA0, SPI_MSB_FIRST);
 }
 
-// Function to change SPI clock frequency at runtime
 void change_spi_frequency(uint baud_rate) {
     // Disable SPI temporarily (optional, to avoid issues during the change)
     spi_deinit(SPI_PORT);
-    
-    // Reconfigure SPI with the new baud rate (frequency)       
     setup_spi(baud_rate);
-    
-    // Re-enable SPI if you deinitialized it
     spi_init(SPI_PORT, baud_rate);
 }
 

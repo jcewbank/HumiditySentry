@@ -1,4 +1,3 @@
-# Based on LCD library CMakeLists.txt
 aux_source_directory(. DIR_PI_PLATFORM_SRCS)
 
 add_library(pi_platform ${DIR_PI_PLATFORM_SRCS})

@@ -4,17 +4,6 @@
 #include "ui_text.h"
 #include "ui_common.h"
 
-// static __force_inline void plot_16bit_pixel(){
-//     uint16_t XDir_Num;
-//     uint16_t YDir_Num;
-
-//     for(XDir_Num = 0; XDir_Num < 2 - 1; XDir_Num++) {
-//         for(YDir_Num = 0; YDir_Num < 2 - 1; YDir_Num++) {
-//             // LCD_SetPointlColor(Xpoint + XDir_Num, Ypoint + YDir_Num, Color);
-//         }
-//     }
-// }
-
 // Max supported font size is 24pt (17px wide)
 static uint8_t char_buf[24 * 17 * sizeof(uint8_t)];
 

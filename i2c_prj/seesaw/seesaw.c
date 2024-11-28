@@ -56,7 +56,6 @@ static int32_t _read_w_delay(
     }
 
     // 8us is the Adafruit default
-    // busy_wait_us(delay);
     busy_wait_us(delay);
     err = i2c_read_blocking(dev->i2c_port,
     dev->addr,
@@ -92,24 +91,6 @@ static bool _probe_for_device(seesaw_dev_t* dev){
     busy_wait_ms(1);
     ret = i2c_read_blocking(dev->i2c_port, dev->addr, &data, 1, false);
     return(ret >= 0);
-    /*
-    while not self.i2c.try_lock():
-            time.sleep(0)
-        try:
-            self.i2c.writeto(self.device_address, b"")
-        except OSError:
-            # some OS's dont like writing an empty bytesting...
-            # Retry by reading a byte
-            try:
-                result = bytearray(1)
-                self.i2c.readfrom_into(self.device_address, result)
-            except OSError:
-                # pylint: disable=raise-missing-from
-                raise ValueError("No I2C device at address: 0x%x" % self.device_address)
-                # pylint: enable=raise-missing-from
-        finally:
-            self.i2c.unlock()
-    */
 }
 
 static int32_t _sw_reset(seesaw_dev_t* dev){
@@ -133,13 +114,6 @@ static bool _reset(seesaw_dev_t* dev, uint8_t addr, float post_reset_delay){
     return found;
 }
 
-/*
-    def sw_reset(self, post_reset_delay=0.5):
-        """Trigger a software reset of the SeeSaw chip"""
-        self.write8(_STATUS_BASE, _STATUS_SWRST, 0xFF)
-        time.sleep(post_reset_delay)
-*/
-
 float seesaw_get_temp(seesaw_dev_t* dev){
     uint8_t buf[4] = {0};
     busy_wait_ms(1);
@@ -153,15 +127,6 @@ float seesaw_get_temp(seesaw_dev_t* dev){
     int32_t ret = ((uint32_t)buf[0] << 24) | ((uint32_t)buf[1] << 16) |
                     ((uint32_t)buf[2] << 8) | (uint32_t)buf[3];
     return (1.0 / (1UL << 16)) * ret;
-    /*
-        def get_temp(self):
-        """Read the temperature"""
-        buf = bytearray(4)
-        self.read(_STATUS_BASE, _STATUS_TEMP, buf, 0.005)
-        buf[0] = buf[0] & 0x3F
-        ret = struct.unpack(">I", buf)[0]
-        return 0.00001525878 * ret
-    */
 }
 
 uint16_t seesaw_touch_read(seesaw_dev_t* dev, uint8_t pin){
@@ -181,7 +146,6 @@ uint16_t seesaw_touch_read(seesaw_dev_t* dev, uint8_t pin){
         3000 + (retry * 1000)
         ) > 0;
     if(success && buf != 0xFFFF) {
-    //   ret = ((uint16_t)buf[0] << 8) | buf[1];
         ret = buf;
         break;
     }
@@ -242,6 +206,4 @@ bool seesaw_init(seesaw_dev_t* dev, uint8_t addr, bool reset){
     
     _get_options(dev);
     seesaw_get_prod_date_code(dev);
-
-    // TODO JCE set the pinmap
 }

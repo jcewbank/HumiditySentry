@@ -40,7 +40,6 @@ void DEV_GPIO_Init(void)
 {
 	DEV_GPIO_Mode(LCD_RST_PIN,GPIO_OUT);
     DEV_GPIO_Mode(LCD_DC_PIN, GPIO_OUT);
-    // DEV_GPIO_Mode(LCD_BKL_PIN, GPIO_OUT);
     DEV_GPIO_Mode(LCD_CS_PIN, GPIO_OUT);
     DEV_GPIO_Mode(TP_CS_PIN,GPIO_OUT);
     DEV_GPIO_Mode(TP_IRQ_PIN,GPIO_IN);
@@ -49,7 +48,6 @@ void DEV_GPIO_Init(void)
 
     DEV_Digital_Write(TP_CS_PIN, 1);
     DEV_Digital_Write(LCD_CS_PIN, 1);
-    // DEV_Digital_Write(LCD_BKL_PIN, 1);
     DEV_Digital_Write(SD_CS_PIN, 1);
 
 	gpio_init(LCD_BKL_PIN);
@@ -61,7 +59,7 @@ void DEV_GPIO_Init(void)
     pwm_set_wrap(slice_num, 7999);      // 2MHz / (7999 + 1) ≈ 250 Hz
 
     // Set initial duty cycle (0-255 for 8-bit)
-    pwm_set_chan_level(slice_num, PWM_CHAN_B, 128);  // 50% brightness
+    pwm_set_chan_level(slice_num, PWM_CHAN_B, 65535);  // max brightness
     
     // Enable PWM
     pwm_set_enabled(slice_num, true);
@@ -76,18 +74,12 @@ note:
 ********************************************************************************/
 uint8_t System_Init(void)
 {
-	//stdio_init_all();
-	// JCE done by PlatformInit
-	DEV_GPIO_Init();
-	// spi_init(SPI_PORT,4000000);
-	// JCE let's go faster
 	// Pi Pico theoretical max SPI speed is 125MHz (the default system clock)
 	// Controller max is ~60MHz
 	spi_init(SPI_PORT, 4000000);
 	gpio_set_function(LCD_CLK_PIN,GPIO_FUNC_SPI);
 	gpio_set_function(LCD_MOSI_PIN,GPIO_FUNC_SPI);
 	gpio_set_function(LCD_MISO_PIN,GPIO_FUNC_SPI);
-	// gpio_set_function(LCD_CS_PIN,GPIO_FUNC_SPI);
 
     return 0;
 }

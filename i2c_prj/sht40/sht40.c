@@ -1,4 +1,4 @@
-// sht40.cpp
+// sht40.c
 
 #include "sht40.h"
 #include "../i2c_util.h"
@@ -40,8 +40,6 @@ sht40_err_t8 sht40_sample(sht40_trh_data_t *sample_data){
     buf[0] = SHT40_CMD_MEAS_TRH_HI;
     i2c_write_blocking(I2C_PORT, SHT40_I2C_ADDR, buf, 1, true);
     
-    // TODO JCE might need to busywait for 1ms here
-    //sleep_ms(10);
     busy_wait_us_32(2000);
 
     memset(buf, 0, sizeof(buf));

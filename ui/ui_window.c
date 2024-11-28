@@ -1,9 +1,6 @@
-// A simple two-tone window
 #include "ui_window.h"
 #include "ui_common.h"
 
-// TODO JCE temporary
-//#include "LCD_GUI.h"
 #include "LCD2_Driver.h"
 
 #include "ui_window_tex.c"
@@ -84,7 +81,6 @@ static void draw_border(
                     glyph = UI_WND_TEX_LEFT;
                     glyph_x = x_pos >> scale_shift;
                     glyph_y = 0;
-                    // continue;
                 }
                 glyph_idx = glyph_x + (UI_WND_TEX_BRDR_SZ * glyph_y);
             }
@@ -93,7 +89,6 @@ static void draw_border(
                     glyph = UI_WND_TEX_TOPRIGHT;
                     glyph_x = (real_border_width - xw_dist - 1) >> scale_shift;
                     glyph_y = y_pos >> scale_shift;
-                    // break;
                 }
                 else if(yh_dist < real_border_width){         // Bottom right corner
                     glyph = UI_WND_TEX_BOTRIGHT;
@@ -104,7 +99,6 @@ static void draw_border(
                     glyph = UI_WND_TEX_RIGHT;
                     glyph_x = (real_border_width - xw_dist - 1) >> scale_shift;
                     glyph_y = 0;
-                    // break;
                 }
                 glyph_idx = glyph_x + (UI_WND_TEX_BRDR_SZ * glyph_y);
             }
