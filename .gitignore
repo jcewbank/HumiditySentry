@@ -1,0 +1,38 @@
+# Build artifacts
+/build/
+/CMakeFiles/
+CMakeCache.txt
+*.cmake
+Makefile
+*.o
+*.elf
+*.bin
+*.hex
+*.map
+
+# IDE settings
+.vscode/
+*.code-workspace
+
+# Backup and temporary files
+*.swp
+*.swo
+*.bak
+*.tmp
+*~
+
+# Logs and debugging
+*.log
+
+# Python virtual environments (if used for tools/scripts)
+venv/
+.env/
+
+# Generated documentation
+/doc/
+*.html
+*.pdf
+
+# Generated config files
+pico-sdk/
+pico-extras/
