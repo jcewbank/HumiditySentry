@@ -74,6 +74,7 @@ note:
 ********************************************************************************/
 uint8_t System_Init(void)
 {
+    DEV_GPIO_Init();
 	// Pi Pico theoretical max SPI speed is 125MHz (the default system clock)
 	// Controller max is ~60MHz
 	spi_init(SPI_PORT, 4000000);
